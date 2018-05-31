@@ -26,9 +26,6 @@ app.post("/rotate", wrapAsync(async (req: Request, res: Response) => {
 }));
 
 app.use((err: Error, req: Request, res: Response, next: NextFunction) => {
-  console.log({
-    err, req, res
-  })
   return res
     .status(500)
     .json({
@@ -37,5 +34,5 @@ app.use((err: Error, req: Request, res: Response, next: NextFunction) => {
 });
 
 export const start = () => {
-  app.listen(config.get().PORT);
+  app.listen(80);
 }

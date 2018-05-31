@@ -1,11 +1,11 @@
 import { RedisClient } from "redis";
 
 type Config = {
-  PORT: number;
-  REDIS_HOST: string;
+  REDIS_HOSTNAME: string;
+  REDIS_PORT: number;
   SECRETS_KEY: string;
   SECRET_LENGTH: number;
-  ROTATION_PERIOD: number;
+  ROTATION_INTERVAL: number;
 }
 
 let config: Config | null = null;
@@ -17,11 +17,11 @@ export const get = (): Config => {
     const { env } = process;
 
     config = {
-      REDIS_HOST: env.REDIS_HOST || "",
+      REDIS_HOSTNAME: env.REDIS_HOSTNAME || "",
+      REDIS_PORT: toNumber(env.REDIS_PORT) || 6379,
       SECRET_LENGTH: toNumber(env.SECRET_LENGTH) || 96,
-      PORT: toNumber(env.PORT) || 80,
       SECRETS_KEY: env.SECRETS_KEY || "SECRETS",
-      ROTATION_PERIOD: toNumber(env.ROTATION_PERIOD) || 60 * 60,
+      ROTATION_INTERVAL: toNumber(env.ROTATION_INTERVAL) || 60 * 60,
     }
   }
 
@@ -29,17 +29,13 @@ export const get = (): Config => {
 }
 
 export const validate = () => {
-  const { SECRET_LENGTH, PORT, REDIS_HOST } = get();
+  const { SECRET_LENGTH, REDIS_HOSTNAME } = get();
 
   if (SECRET_LENGTH < 1) {
     throw new Error("SECRET_LENGTH must be positive.");
   }
 
-  if (REDIS_HOST === "") {
+  if (REDIS_HOSTNAME === "") {
     throw new Error("REDIS_HOST must be set.");
-  }
-
-  if (PORT < 1) {
-    throw new Error("PORT must be positive.");
   }
 }

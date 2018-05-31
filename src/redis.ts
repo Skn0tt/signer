@@ -1,9 +1,9 @@
 import * as redis from "redis";
 import * as config from "./config";
 
-const { REDIS_HOST } = config.get();
+const { REDIS_HOSTNAME, REDIS_PORT } = config.get();
 
-const client = redis.createClient(`redis://${REDIS_HOST}`);
+const client = redis.createClient(`redis://${REDIS_HOSTNAME}:${REDIS_PORT}`);
 
 export const get = (key: string) => new Promise<string>((resolve, reject) => {
   client.get(key, (err, reply) => {

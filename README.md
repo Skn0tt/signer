@@ -18,7 +18,7 @@ services:
   rotator:
     image: skn0tt/secret-rotator
     environment:
-      REDIS_HOST: redis
+      REDIS_HOSTNAME: redis
       ROTATION_PERIOD: 20
     ports:
       - 80:80

@@ -1,0 +1,14 @@
+version: "3"
+
+services:
+
+  redis:
+    image: redis
+  
+  rotator:
+    build: ./
+    environment:
+      REDIS_HOST: redis
+      ROTATION_PERIOD: 20
+    ports:
+      - 80:80

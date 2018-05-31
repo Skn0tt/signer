@@ -1,6 +1,4 @@
-[![Docker Pulls](https://img.shields.io/docker/pulls/skn0tt/secret-rotator.svg?style=flat-square)](https://hub.docker.com/r/skn0tt/secret-rotator/)
-
-[![Docker Build Status](https://img.shields.io/docker/build/skn0tt/secret-rotator.svg)](https://hub.docker.com/r/skn0tt/secret-rotator/)
+[![Docker Pulls](https://img.shields.io/docker/pulls/skn0tt/secret-rotator.svg?style=flat-square)](https://hub.docker.com/r/skn0tt/secret-rotator/) [![Docker Build Status](https://img.shields.io/docker/build/skn0tt/secret-rotator.svg?style=flat-square)](https://hub.docker.com/r/skn0tt/secret-rotator/)
 
 # secret-rotator
 

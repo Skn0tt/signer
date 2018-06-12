@@ -1,6 +1,6 @@
-[![Docker Pulls](https://img.shields.io/docker/pulls/skn0tt/secret-rotator.svg?style=flat-square)](https://hub.docker.com/r/skn0tt/secret-rotator/) [![Docker Build Status](https://img.shields.io/docker/build/skn0tt/secret-rotator.svg?style=flat-square)](https://hub.docker.com/r/skn0tt/secret-rotator/)
+[![Docker Pulls](https://img.shields.io/docker/pulls/skn0tt/signer.svg?style=flat-square)](https://hub.docker.com/r/skn0tt/signer/) [![Docker Build Status](https://img.shields.io/docker/build/skn0tt/signer.svg?style=flat-square)](https://hub.docker.com/r/skn0tt/signer/)
 
-# secret-rotator
+# signer
 
 This Docker image supplies a Redis instance with new *random secrets* in a given interval.
 Secrets can be obtained either through a REST API or by direct access to Redis.
@@ -16,7 +16,7 @@ services:
     image: redis
 
   rotator:
-    image: skn0tt/secret-rotator
+    image: skn0tt/signer
     environment:
       REDIS_HOSTNAME: redis
       ROTATION_PERIOD: 20

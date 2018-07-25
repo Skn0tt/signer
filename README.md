@@ -6,6 +6,10 @@ This Docker image supplies a Redis instance with new *random secrets* in a given
 Secrets can be obtained either through a REST API or by direct access to Redis.
 They are stored in a JSON consisting of two keys named "old" and "current".
 
+- [Getting Started](README.md#Getting-Started)
+- [Configuration](README.md#Configuration)
+- [API Documentation](SwaggerDoc.yml)
+
 ## Getting Started
 
 ```yml
@@ -37,10 +41,3 @@ environment:
   SECRET_LENGTH: 96
   DISABLE_ROTATING: false # can disable the rotation cron job on this instance (to make it swarm-eable)
 ```
-
-## REST-API
-
-| Route        |                                |
-| ------------ | ------------------------------ |
-| GET /secrets | Returns the secrets from redis |
-| POST /rotate | Triggers a new rotation        |

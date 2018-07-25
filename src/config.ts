@@ -1,5 +1,3 @@
-import { RedisClient } from "redis";
-
 type Config = {
   REDIS_HOSTNAME: string;
   REDIS_PORT: number;
@@ -36,6 +34,6 @@ export const validate = () => {
   }
 
   if (REDIS_HOSTNAME === "") {
-    throw new Error("REDIS_HOST must be set.");
+    throw new Error("REDIS_HOSTNAME must be set.");
   }
 }

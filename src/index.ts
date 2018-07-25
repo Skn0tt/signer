@@ -5,7 +5,6 @@ import * as cron from "./cron";
 
 const init = () => {
   config.validate();
-  secrets.rotate();
   cron.start();
   rest.start();
 }

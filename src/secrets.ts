@@ -19,11 +19,23 @@ const generateNewSecrets = (old: Secrets | null) => ({
 })
 
 export const rotate = async () => {
-  const oldValues = JSON.parse(await get());
+  const oldValues = await get();
 
   const newValues = generateNewSecrets(oldValues);
   
   await redis.set(SECRETS_KEY, JSON.stringify(newValues));
 }
 
-export const get = () => redis.get(SECRETS_KEY);
+export const getString = () => redis.get(SECRETS_KEY);
+export const get = async (): Promise<Secrets> => {
+  const s = await getString();
+  return JSON.parse(s);
+}
+export const getCurrent = async () => {
+  const { current } = await get();
+  return current;
+}
+export const getOld = async () => {
+  const { old } = await get();
+  return old;
+}

@@ -15,6 +15,26 @@ export const get = (key: string) => new Promise<string>((resolve, reject) => {
   })
 })
 
+export const has = (key: string) => new Promise<boolean>((resolve, reject) => {
+  client.exists(key, (err, reply) => {
+    if (!!err) {
+      reject(err);
+    }
+    
+    resolve(reply === 1);
+  })
+})
+
+export const remove = (key: string) => new Promise<void>((resolve, reject) => {
+  client.del(key, err => {
+    if (!!err) {
+      reject(err);
+    }
+
+    resolve();
+  })
+})
+
 export const set = (key: string, value: string) => new Promise<"OK">((resolve, reject) => {
   client.set(key, value, (err, reply) => {
     if (err) {

@@ -4,7 +4,6 @@ import * as secrets from "./secrets";
 import * as jwt from "./jwt";
 import wrapAsync from 'express-wrap-async';
 import bodyParser from "body-parser";
-import { ResolveOptions } from "dns";
 
 const app = express();
 
@@ -125,5 +124,5 @@ app.use(
 );
 
 export const start = () => {
-  app.listen(80);
+  app.listen(3000);
 }

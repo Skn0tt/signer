@@ -14,11 +14,11 @@ app.use(morgan('common'));
 app.get(
   "/secrets",
   wrapAsync(async (_, res) => {
-    const result = await secrets.getString();
+    const result = await secrets.get();
 
     return res
             .status(200)
-            .send(result)
+            .json(result)
             .end();
   }
 ));

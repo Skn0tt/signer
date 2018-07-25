@@ -1,0 +1,145 @@
+openapi: 3.0.0
+info:
+  version: "0.3.0"
+  title: signer
+  
+tags:
+  - name: /secrets
+  - name: /tokens
+
+paths:
+
+  #
+  # /secrets
+  #
+  
+  "/secrets":
+    get:
+      tags:
+        - /secrets
+      description: "Returns both secrets"
+      responses:
+        200:
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+                required:
+                  - old
+                  - current
+                properties:
+                  old:
+                    type: string
+                  current:
+                    type: string
+          
+          
+    post:
+      tags:
+        - /secrets
+      description: "Rotates secrets"
+      responses:
+        200:
+          description: OK
+      
+  "/secrets/old":
+    get:
+      tags:
+        - /secrets
+      description: "Returns the _old_ secret."
+      responses:
+        200:
+          description: OK
+          content:
+            text/plain:
+              schema:
+                type: string
+              
+  "/secrets/current":
+    get:
+      tags:
+        - /secrets
+      description: "Returns the _current_ secret."
+      responses:
+        200:
+          description: OK
+          content:
+            text/plain:
+              schema:
+                type: string
+                
+  #
+  # /tokens
+  #
+  
+  "/tokens":
+    post:
+      tags:
+        - /tokens
+      responses:
+        201:
+          description: Created JWT.
+          content:
+            text/plain:
+              schema:
+                type: string
+                
+  "/tokens/:id":
+    get:
+      description: Validate and decode a token
+      tags:
+        - /tokens
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        200:
+          description: Token valid
+          content:
+            application/json:
+              schema:
+                type: object
+                example: { "name": "Simon", ...: "Your Payload Data" }
+                
+        401:
+          description: Token invalid
+          content:
+            text/plain:
+              schema:
+                type: string
+    
+    head:
+      tags:
+        - /tokens
+      description: Validate a token
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        200:
+          description: Token valid
+        401:
+          description: Token invalid
+    
+    delete:
+      tags:
+        - /tokens
+      description: Block a token
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        200:
+          description: Token Blocked
+            
+    

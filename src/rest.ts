@@ -23,6 +23,30 @@ app.get(
   }
 ));
 
+app.get(
+  "/secrets/old",
+  wrapAsync(async (_, res) => {
+    const result = await secrets.getOld();
+
+    return res
+            .status(200)
+            .send(result)
+            .end();
+  })
+);
+
+app.get(
+  "/secrets/current",
+  wrapAsync(async (_, res) => {
+    const result = await secrets.getCurrent();
+
+    return res
+            .status(200)
+            .send(result)
+            .end();
+  })
+);
+
 app.post(
   "/secrets",
   wrapAsync(async (_, res) => {

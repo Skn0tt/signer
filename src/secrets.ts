@@ -9,7 +9,7 @@ type Secrets = {
   current: string;
 }
 
-const generateSecret = (): string => crypto.randomBytes(SECRET_LENGTH / 2).toString("hex");
+export const generateSecret = (): string => crypto.randomBytes(SECRET_LENGTH / 2).toString("hex");
 
 const generateNewSecrets = (old: Secrets | null) => ({
   old: !!old

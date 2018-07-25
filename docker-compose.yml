@@ -5,10 +5,10 @@ services:
   redis:
     image: redis
   
-  rotator:
+  signer:
     build: ./
     environment:
-      REDIS_HOST: redis
+      REDIS_HOSTNAME: redis
       ROTATION_PERIOD: 20
     ports:
       - 80:80

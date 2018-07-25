@@ -5,13 +5,7 @@
   "bin": "dist/index.js",
   "license": "MIT",
   "scripts": {
-    "build:macOS": "yarn compile && yarn package:macOS",
-    "build:alpine": "yarn compile && yarn package:alpine",
-    "build:linux": "yarn compile && yarn package:linux",
-    "compile": "yarn tsc",
-    "package:macOS": "yarn pkg -t node9-macos-x64 .",
-    "package:alpine": "yarn pkg -t node9-alpine-x64 .",
-    "package:linux": "yarn pkg -t node9-linux-x64 ."
+    "start": "ts-node src/index.ts"
   },
   "dependencies": {
     "express": "^4.16.3",
@@ -24,7 +18,7 @@
     "@types/morgan": "^1.7.35",
     "@types/node": "^10.1.3",
     "@types/redis": "^2.8.6",
-    "pkg": "^4.3.1",
+    "ts-node": "^7.0.0",
     "typescript": "^2.8.3"
   }
 }

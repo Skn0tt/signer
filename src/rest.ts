@@ -11,17 +11,63 @@ const app = express();
 app.use(morgan('common'));
 
 // GET Secrets
-app.get("/secrets", wrapAsync(async (req, res) => {
-  const result = await secrets.getString();
+app.get(
+  "/secrets",
+  wrapAsync(async (_, res) => {
+    const result = await secrets.getString();
 
-  return res
-          .status(200)
-          .send(result)
-          .end();
-}));
+    return res
+            .status(200)
+            .send(result)
+            .end();
+  }
+));
+
+app.post(
+  "/secrets",
+  wrapAsync(async (_, res) => {
+    await secrets.rotate();
+
+    return res
+            .status(200)
+            .end();
+  }
+));
+
+// Verify Token
+app.get(
+  "/tokens/:token",
+  wrapAsync(async (req, res) => {
+    const { token } = req.params;
+    const [ correct, payload ] = await jwt.verify(token);
+    
+    if (correct) {
+      return res
+              .status(200)
+              .json(payload);
+    } else {
+      return res
+              .status(401)
+              .send(payload);
+    }
+  }
+));
+
+app.head(
+  "/tokens/:token",
+  wrapAsync(async (req, res) => {
+    const { token } = req.params;
+    const [ correct ] = await jwt.verify(token);
+
+    return res
+            .status(correct ? 200 : 401)
+            .end();
+    }
+));
 
 // Sign body with secrets
-app.post("/secrets",
+app.post(
+  "/tokens",
   bodyParser.json({ strict: true }),
   wrapAsync(async (req, res) => {
     const { body } = req;
@@ -33,54 +79,26 @@ app.post("/secrets",
   }
 ));
 
-// Verify Token
-app.get("/secrets/:token", wrapAsync(async (req, res) => {
-  const { token } = req.params;
-  const [ correct, payload ] = await jwt.verify(token);
-  
-  if (correct) {
+app.delete(
+  "/secrets/:token",
+  wrapAsync(async (req, res) => {
+    const { token } = req.params;
+    await jwt.block(token);
     return res
             .status(200)
-            .json(payload);
-  } else {
-    return res
-            .status(401)
-            .send(payload);
+            .end();
   }
-}))
+))
 
-app.head("/secrets/:token", wrapAsync(async (req, res) => {
-  const { token } = req.params;
-  const [ correct ] = await jwt.verify(token);
-
-  return res
-          .status(correct ? 200 : 401)
-          .end();
-}))
-
-app.delete("/secrets/:token", wrapAsync(async (req, res) => {
-  const { token } = req.params;
-  await jwt.block(token);
-  return res
-          .status(200)
-          .end();
-}))
-
-app.post("/rotate", wrapAsync(async (req, res) => {
-  await secrets.rotate();
-
-  return res
-          .status(200)
-          .end();
-}));
-
-app.use((err: Error, req: Request, res: Response, next: NextFunction) => {
-  return res
-          .status(500)
-          .json({
-            error: err.message,
-          });
-});
+app.use(
+  (err: Error, req: Request, res: Response, next: NextFunction) => {
+    return res
+            .status(500)
+            .json({
+              error: err.message,
+            });
+  }
+);
 
 export const start = () => {
   app.listen(80);

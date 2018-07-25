@@ -10,5 +10,6 @@ services:
     environment:
       - REDIS_HOSTNAME=redis
       - ROTATION_PERIOD
+      - DISABLE_ROTATING
     ports:
       - ${PORT}:3000

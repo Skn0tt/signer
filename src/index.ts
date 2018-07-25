@@ -4,8 +4,11 @@ import * as cron from "./cron";
 
 const init = () => {
   config.validate();
-  cron.start();
   rest.start();
+
+  if (!config.get().DISABLE_ROTATING) {
+    cron.start();
+  }
 }
 
 init();

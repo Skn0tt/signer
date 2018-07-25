@@ -35,6 +35,7 @@ environment:
   ROTATION_INTERVAL: 3600 # in seconds
   SECRETS_KEY: SECRETS # key that secrets are stored in
   SECRET_LENGTH: 96
+  DISABLE_ROTATING: false # can disable the rotation cron job on this instance (to make it swarm-eable)
 ```
 
 ## REST-API

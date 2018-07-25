@@ -4,6 +4,7 @@ type Config = {
   SECRETS_KEY: string;
   SECRET_LENGTH: number;
   ROTATION_INTERVAL: number;
+  DISABLE_ROTATING: boolean;
 }
 
 let config: Config | null = null;
@@ -20,6 +21,7 @@ export const get = (): Config => {
       SECRET_LENGTH: toNumber(env.SECRET_LENGTH) || 96,
       SECRETS_KEY: env.SECRETS_KEY || "SECRETS",
       ROTATION_INTERVAL: toNumber(env.ROTATION_INTERVAL) || 60 * 60,
+      DISABLE_ROTATING: env.DISABLE_ROTATING === "true"
     }
   }
 

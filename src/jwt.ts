@@ -3,14 +3,18 @@ import * as secrets from "./secrets";
 import * as redis from "./redis";
 import * as config from "./config";
 
-const { ASYMMETRIC_SIGNING } = config.get();
+const { ASYMMETRIC_SIGNING, TOKEN_EXPIRY } = config.get();
 
 const ASYMMETRIC_ALGORITHM = "RS256"
 
+const baseSignOptions: JWT.SignOptions = {
+  expiresIn: TOKEN_EXPIRY,
+}
+
 const jwtSign = (payload: string | object | Buffer, secret: string) =>
   ASYMMETRIC_SIGNING
-    ? JWT.sign(payload, secret, { algorithm: ASYMMETRIC_ALGORITHM })
-    : JWT.sign(payload, secret)
+    ? JWT.sign(payload, secret, { ...baseSignOptions, algorithm: ASYMMETRIC_ALGORITHM })
+    : JWT.sign(payload, secret, baseSignOptions)
 
 export const sign = async (body: string | object | Buffer) => {
   const s = await secrets.getCurrentPrivate();

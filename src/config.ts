@@ -3,6 +3,7 @@ type Config = {
   REDIS_PORT: number;
   SECRETS_KEY: string;
   SECRET_LENGTH: number;
+  TOKEN_EXPIRY: number;
   ASYMMETRIC_SIGNING: boolean;
   ROTATION_INTERVAL: number;
   DISABLE_ROTATING: boolean; 
@@ -21,6 +22,7 @@ export const get = (): Config => {
       REDIS_PORT: toNumber(env.REDIS_PORT) || 6379,
       SECRET_LENGTH: toNumber(env.SECRET_LENGTH) || 96,
       SECRETS_KEY: env.SECRETS_KEY || "SECRETS",
+      TOKEN_EXPIRY: toNumber(env.TOKEN_EXPIRY) || 60 * 60,
       ROTATION_INTERVAL: toNumber(env.ROTATION_INTERVAL) || 60 * 60,
       DISABLE_ROTATING: env.DISABLE_ROTATING === "true",
       ASYMMETRIC_SIGNING: env.ASYMMETRIC_SIGNING === "true",

@@ -46,8 +46,8 @@ export const generateNewSecrets = async (old: Secrets | null, asymmetric = ASYM
   }
 }
 
-export const rotate = async () => {
-  const oldValues = await get();
+export const rotate = async (first = false) => {
+  const oldValues = first ? null : await get();
 
   const newValues = await generateNewSecrets(oldValues);
   
@@ -57,7 +57,7 @@ export const rotate = async () => {
 const getString = async () => {
   const result = await redis.get(SECRETS_KEY);
   if (!result) {
-    await rotate();
+    await rotate(true);
     return await redis.get(SECRETS_KEY);
   }
 

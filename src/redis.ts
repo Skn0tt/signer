@@ -38,7 +38,7 @@ export const remove = (key: string) => new Promise<void>((resolve, reject) => {
 })
 
 export const set = (key: string, value: string) => new Promise<void>((resolve, reject) => {
-  client().set(key, value, (err, reply) => {
+  client().set(key, value, (err) => {
     if (err) {
       reject(err);
     }

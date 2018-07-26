@@ -103,7 +103,7 @@ app.post(
 ));
 
 app.delete(
-  "/secrets/:token",
+  "/tokens/:token",
   wrapAsync(async (req, res) => {
     const { token } = req.params;
     await jwt.block(token);

@@ -3,7 +3,7 @@ import * as secrets from "./secrets";
 import * as redis from "./redis";
 
 export const sign = async (body: string | object | Buffer) => {
-  const s = await secrets.getCurrent();
+  const s = await secrets.getCurrentPrivate();
   const token = await JWT.sign(body, s);
   await redis.set(token, "true");
   return token;
@@ -23,7 +23,7 @@ export const verify = async (token: string): Promise<[boolean, string | object
     return [false, "Token Unknown"];
   }
   
-  const { current, old } = await secrets.get();
+  const { current, old } = await secrets.getPublic();
 
   const check = (secret: string) => JWT.verify(token, secret);
 

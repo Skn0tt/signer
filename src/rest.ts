@@ -13,7 +13,7 @@ app.use(morgan('common'));
 app.get(
   "/secrets",
   wrapAsync(async (_, res) => {
-    const result = await secrets.get();
+    const result = await secrets.getPublic();
 
     return res
             .status(200)
@@ -25,7 +25,7 @@ app.get(
 app.get(
   "/secrets/old",
   wrapAsync(async (_, res) => {
-    const result = await secrets.getOld();
+    const result = await secrets.getOldPublic();
 
     return res
             .status(200)
@@ -37,7 +37,7 @@ app.get(
 app.get(
   "/secrets/current",
   wrapAsync(async (_, res) => {
-    const result = await secrets.getCurrent();
+    const result = await secrets.getCurrentPublic();
 
     return res
             .status(200)

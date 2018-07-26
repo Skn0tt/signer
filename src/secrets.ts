@@ -54,7 +54,15 @@ export const rotate = async () => {
   await redis.set(SECRETS_KEY, JSON.stringify(newValues));
 }
 
-const getString = () => redis.get(SECRETS_KEY);
+const getString = async () => {
+  const result = await redis.get(SECRETS_KEY);
+  if (!result) {
+    await rotate();
+    return await redis.get(SECRETS_KEY);
+  }
+
+  return result;
+}
 
 export const get = async (): Promise<Secrets> => {
   const s = await getString();

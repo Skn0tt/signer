@@ -1,31 +1,44 @@
 import * as JWT from "jsonwebtoken";
 import * as secrets from "./secrets";
 import * as redis from "./redis";
+import * as config from "./config";
+
+const { ASYMMETRIC_SIGNING } = config.get();
+
+const ASYMMETRIC_ALGORITHM = "RS256"
+
+const jwtSign = (payload: string | object | Buffer, secret: string) =>
+  ASYMMETRIC_SIGNING
+    ? JWT.sign(payload, secret, { algorithm: ASYMMETRIC_ALGORITHM })
+    : JWT.sign(payload, secret)
 
 export const sign = async (body: string | object | Buffer) => {
   const s = await secrets.getCurrentPrivate();
-  const token = await JWT.sign(body, s);
-  await redis.set(token, "true");
+  const token = await jwtSign(body, s);
   return token;
 }
 
-export const block = async (token: string) => {
-  await redis.remove(token);
-}
+export const block = (token: string) => redis.set(token, "blocked");
+
+const isBlocked = redis.has
 
 type VerificationError = JWT.JsonWebTokenError | JWT.TokenExpiredError
 
 const isTokenExpiredError = (e: VerificationError): e is JWT.TokenExpiredError => e.name === "TokenExpiredError"
 
+const jwtVerify = (token: string, secret: string) =>
+  ASYMMETRIC_SIGNING
+    ? JWT.verify(token, secret, { algorithms: [ ASYMMETRIC_ALGORITHM ] })
+    : JWT.verify(token, secret)
+
 export const verify = async (token: string): Promise<[boolean, string | object]> => {
-  const tokenKnown = await redis.has(token);
-  if (!tokenKnown) {
-    return [false, "Token Unknown"];
+  if (await isBlocked(token)) {
+    return [false, "Token Blocked"];
   }
   
   const { current, old } = await secrets.getPublic();
 
-  const check = (secret: string) => JWT.verify(token, secret);
+  const check = (secret: string) => jwtVerify(token, secret);
 
   try {
     const payload = check(current);

@@ -17,7 +17,7 @@ paths:
     get:
       tags:
         - /secrets
-      description: "Returns both secrets"
+      description: "Returns both public secrets"
       responses:
         200:
           description: OK
@@ -47,7 +47,7 @@ paths:
     get:
       tags:
         - /secrets
-      description: "Returns the _old_ secret."
+      description: "Returns the _old_ public secret."
       responses:
         200:
           description: OK
@@ -60,7 +60,7 @@ paths:
     get:
       tags:
         - /secrets
-      description: "Returns the _current_ secret."
+      description: "Returns the _current_ public secret."
       responses:
         200:
           description: OK

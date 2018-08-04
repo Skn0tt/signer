@@ -6,6 +6,7 @@ type Config = {
   TOKEN_EXPIRY: number;
   ASYMMETRIC_SIGNING: boolean;
   ROTATION_INTERVAL: number;
+  ROTATE_ON_STARTUP: boolean;
   DISABLE_ROTATING: boolean; 
 }
 
@@ -25,6 +26,7 @@ export const get = (): Config => {
       TOKEN_EXPIRY: toNumber(env.TOKEN_EXPIRY) || 60 * 60,
       ROTATION_INTERVAL: toNumber(env.ROTATION_INTERVAL) || 60 * 60,
       DISABLE_ROTATING: env.DISABLE_ROTATING === "true",
+      ROTATE_ON_STARTUP: env.ROTATE_ON_STARTUP === "true",
       ASYMMETRIC_SIGNING: env.ASYMMETRIC_SIGNING === "true",
     }
   }

@@ -76,5 +76,6 @@ environment:
   SECRETS_KEY: SECRETS # key that secrets are stored in
   SECRET_LENGTH: 96
   DISABLE_ROTATING: false # can disable the rotation cron job on this instance (to make it swarm-eable)
+  ROTATE_ON_STARTUP: false # triggers a single rotation on startup of the service
   ASYMMETRIC_SIGNING: true # can be disable to use symmetric signing
 ```

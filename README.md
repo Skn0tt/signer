@@ -11,7 +11,7 @@ These keys can be obtained over `signer`s REST-API, so that the other services c
 
 - [Getting Started](README.md#Getting-Started)
 - [Configuration](README.md#Configuration)
-- [API Documentation](SwaggerDoc.yml)
+- [API Documentation](OpenAPI.yml)
 
 ## Getting Started
 

@@ -7,7 +7,11 @@ import bodyParser from "body-parser";
 
 const app = express();
 
-app.use(morgan('common'));
+const mrgnFormat = ':remote-addr - :remote-user [:date[clf]] ":method :sanitizedUrl HTTP/:http-version" :status :res[content-length]'
+
+app.use(morgan(morgan.compile(mrgnFormat)));
+
+morgan.token('sanitizedUrl', req => req.url.includes("/tokens") ? "/tokens/***" : req.url)
 
 // GET Secrets
 app.get(
@@ -107,6 +111,7 @@ app.delete(
   wrapAsync(async (req, res) => {
     const { token } = req.params;
     await jwt.block(token);
+
     return res
             .status(200)
             .end();

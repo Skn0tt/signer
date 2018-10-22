@@ -37,12 +37,11 @@ export const remove = (key: string) => new Promise<void>((resolve, reject) => {
   })
 })
 
-export const set = (key: string, value: string) => new Promise<void>((resolve, reject) => {
-  client().set(key, value, (err) => {
-    if (err) {
-      reject(err);
-    }
-
-    resolve();
-  })
+export const set = (key: string, value: string, expiry?: number) => new Promise<void>((resolve, reject) => {
+  const callback = err => !!err ? reject(err) : resolve();
+  if (!!expiry) {
+    client().set(key, value, "EXPIRE", expiry, callback);
+  } else {
+    client().set(key, value);
+  }
 })

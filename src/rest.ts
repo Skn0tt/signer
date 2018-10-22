@@ -4,6 +4,7 @@ import * as secrets from "./secrets";
 import * as jwt from "./jwt";
 import wrapAsync from 'express-wrap-async';
 import bodyParser from "body-parser";
+import { resolve } from "path";
 
 const app = express();
 
@@ -117,6 +118,8 @@ app.delete(
             .end();
   }
 ))
+
+app.get("/status", (_, res) => res.status(200).end());
 
 app.use(
   (err: Error, req: Request, res: Response, next: NextFunction) => {

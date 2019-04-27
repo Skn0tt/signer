@@ -47,23 +47,23 @@ export const set = (key: string, value: string, expiry?: number) => new Promise<
 })
 
 export const isHealthy = () =>
-new Promise<boolean>((resolve, reject) => {
-  let finished = false;
-  
-  setTimeout(
-    () => {
+  new Promise<boolean>(resolve => {
+    let finished = false;
+    
+    setTimeout(
+      () => {
+        if (!finished) {
+          finished = true;
+          resolve(false);
+        }
+      },
+      1000
+    );
+
+    client().ping(() => {
       if (!finished) {
         finished = true;
-        reject();
+        resolve(true);
       }
-    },
-    1000
-  );
-
-  client().ping(() => {
-    if (!finished) {
-      finished = true;
-      resolve();
-    }
-  });
-})
+    });
+  })

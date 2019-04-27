@@ -4,7 +4,7 @@ import * as secrets from "./secrets";
 import * as jwt from "./jwt";
 import wrapAsync from 'express-wrap-async';
 import bodyParser from "body-parser";
-import { resolve } from "path";
+import * as health from "./health";
 
 const app = express();
 
@@ -119,7 +119,17 @@ app.delete(
   }
 ))
 
-app.get("/status", (_, res) => res.status(200).end());
+app.get(
+  "/status",
+  wrapAsync(async (_, res) => {
+    const healthReport = await health.createHealthReport();
+
+    return res
+            .status(healthReport.isHealthy ? 200 : 503)
+            .json(healthReport)
+            .end();
+  })
+);
 
 app.use(
   (err: Error, req: Request, res: Response, next: NextFunction) => {

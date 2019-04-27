@@ -45,3 +45,25 @@ export const set = (key: string, value: string, expiry?: number) => new Promise<
     client().set(key, value);
   }
 })
+
+export const isHealthy = () =>
+new Promise<boolean>((resolve, reject) => {
+  let finished = false;
+  
+  setTimeout(
+    () => {
+      if (!finished) {
+        finished = true;
+        reject();
+      }
+    },
+    1000
+  );
+
+  client().ping(() => {
+    if (!finished) {
+      finished = true;
+      resolve();
+    }
+  });
+})

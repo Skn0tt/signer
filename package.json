@@ -16,7 +16,7 @@
     "jsonwebtoken": "^8.3.0",
     "keypair": "^1.0.1",
     "morgan": "^1.9.0",
-    "pem": "^1.12.5",
+    "pem": "^1.13.2",
     "redis": "^2.8.0"
   },
   "devDependencies": {

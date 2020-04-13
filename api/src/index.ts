@@ -1,13 +1,13 @@
-import express, { Request, Response, NextFunction } from "express";
-import morgan from "morgan";
+import * as express from "express";
+import type { Request, Response, NextFunction } from "express";
+import * as morgan from "morgan";
 import wrapAsync from 'express-wrap-async';
-import bodyParser from "body-parser";
-import Signer from "../../lib/src";
+import * as bodyParser from "body-parser";
+import Signer from "@skn0tt/signer";
 import * as redis from "redis";
 import * as config from "./config";
 
 async function main() {
-
   const app = express();
 
   const mrgnFormat = ':remote-addr - :remote-user [:date[clf]] ":method :sanitizedUrl HTTP/:http-version" :status :res[content-length]'

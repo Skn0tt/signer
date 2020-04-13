@@ -11,10 +11,7 @@ const baseSignOptions: JWT.SignOptions = {
   expiresIn: TOKEN_EXPIRY,
 }
 
-const jwtSign = (payload: string | object | Buffer, secret: string) =>
-  ASYMMETRIC_SIGNING
-    ? JWT.sign(payload, secret, { ...baseSignOptions, algorithm: ASYMMETRIC_ALGORITHM })
-    : JWT.sign(payload, secret, baseSignOptions)
+
 
 export const sign = async (body: string | object | Buffer) => {
   const s = await secrets.getCurrentPrivate();
@@ -26,7 +23,7 @@ export const block = (token: string) => redis.set(token, "blocked", TOKEN_EXPIRY
 
 const isBlocked = redis.has
 
-type VerificationError = JWT.JsonWebTokenError | JWT.TokenExpiredError
+type VerificationError = JWT.JsonWebTokenError | JWT.TokenExpiredError;
 
 const isTokenExpiredError = (e: VerificationError): e is JWT.TokenExpiredError => e.name === "TokenExpiredError"
 

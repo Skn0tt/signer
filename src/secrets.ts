@@ -35,7 +35,7 @@ export const generateSymmetricSecret = async (): Promise<Key> => {
   return { publicKey: k, privateKey: k };
 }
 
-export const generateNewSecrets = async (old: Secrets | null, asymmetric = ASYMMETRIC_SIGNING) => {
+export const generateNewSecrets = async (old: Secrets | null, asymmetric = ASYMMETRIC_SIGNING) => {
   const gen = asymmetric ? generateAsymmetricSecret : generateSymmetricSecret;
 
   return {

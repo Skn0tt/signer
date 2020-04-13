@@ -1,6 +1,6 @@
 import * as crypto from "crypto";
 import keypair from "keypair";
-import { SignerConfig } from "./Signer";
+import type { SignerConfig } from "./Signer";
 
 interface Key {
   publicKey: string;

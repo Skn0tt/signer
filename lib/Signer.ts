@@ -1,5 +1,5 @@
-import { KeyValueStorage } from "./KeyValueStorage";
-import { RedisClient } from "redis";
+import type { KeyValueStorage } from "./KeyValueStorage";
+import type { RedisClient } from "redis";
 import { RedisKeyValueStorage } from "./RedisKeyValueStorage";
 import { generateNewSecrets, Secrets } from "./secrets";
 import { JWTRepository } from "./JWTRepository";

@@ -1,5 +1,5 @@
-import { RedisClient } from "redis";
-import { KeyValueStorage } from "./KeyValueStorage";
+import type { RedisClient } from "redis";
+import type { KeyValueStorage } from "./KeyValueStorage";
 
 export class RedisKeyValueStorage implements KeyValueStorage {
   

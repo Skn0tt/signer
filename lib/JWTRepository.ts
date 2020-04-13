@@ -1,7 +1,7 @@
-import { Secrets } from "./secrets";
-import { KeyValueStorage } from "./KeyValueStorage";
+import type { Secrets } from "./secrets";
+import type { KeyValueStorage } from "./KeyValueStorage";
 import * as JWT from "jsonwebtoken";
-import { SignerConfig } from "./Signer";
+import type { SignerConfig } from "./Signer";
 
 type VerificationError = JWT.JsonWebTokenError | JWT.TokenExpiredError;
 const isTokenExpiredError = (e: VerificationError): e is JWT.TokenExpiredError => e.name === "TokenExpiredError";

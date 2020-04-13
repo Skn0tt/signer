@@ -2,7 +2,7 @@ import express, { Request, Response, NextFunction } from "express";
 import morgan from "morgan";
 import wrapAsync from 'express-wrap-async';
 import bodyParser from "body-parser";
-import Signer from "../lib";
+import Signer from "../lib/src";
 import * as redis from "redis";
 import * as config from "./config";
 

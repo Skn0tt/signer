@@ -1,9 +1,16 @@
 import { generateSymmetricSecret, generateAsymmetricSecret, generateNewSecrets } from "./secrets";
 import JWT from "jsonwebtoken";
+import { SignerConfig } from "./Signer";
 
 describe("Secrets", () => {
 
   describe("generateNewSecrets", () => {
+    const options: SignerConfig = {
+      mode: "asymmetric",
+      secretLength: 10,
+      rotationInterval: 100,
+      tokenExpiry: 100
+    };
 
     describe("sync", () => {
       it("rotates", () => {
@@ -17,7 +24,7 @@ describe("Secrets", () => {
             publicKey: "D"
           }
         }
-        const newSecrets = generateNewSecrets(old, false, 10);
+        const newSecrets = generateNewSecrets(old, options);
   
         expect(newSecrets.old).toEqual(old.current);
       })
@@ -35,7 +42,7 @@ describe("Secrets", () => {
             publicKey: "D"
           }
         }
-        const newSecrets = generateNewSecrets(old, true, 10);
+        const newSecrets = generateNewSecrets(old, options);
   
         expect(newSecrets.old).toEqual(old.current);
       })

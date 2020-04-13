@@ -1,0 +1,15 @@
+{
+  "name": "@skn0tt/signer",
+  "version": "0.4.1",
+  "main": "index.js",
+  "license": "MIT",
+  "dependencies": {
+    "jsonwebtoken": "^8.5.1",
+    "keypair": "^1.0.1"
+  },
+  "devDependencies": {
+    "@types/jsonwebtoken": "^8.3.9",
+    "@types/node": "^13.11.1",
+    "@types/redis": "^2.8.17"
+  }
+}

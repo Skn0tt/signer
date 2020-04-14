@@ -4,6 +4,10 @@
   "license": "MIT",
   "source": "src/index.ts",
   "main": "dist/index.js",
+  "files": [
+    "./dist",
+    "./src"
+  ],
   "scripts": {
     "build": "tsc",
     "test": "jest"

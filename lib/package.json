@@ -1,6 +1,6 @@
 {
   "name": "@skn0tt/signer",
-  "version": "0.8.5",
+  "version": "0.8.6",
   "license": "MIT",
   "source": "src/index.ts",
   "main": "dist/index.js",

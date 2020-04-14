@@ -9,6 +9,7 @@
     "./src"
   ],
   "scripts": {
+    "prepack": "yarn build",
     "build": "tsc",
     "test": "jest"
   },

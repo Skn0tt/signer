@@ -21,13 +21,19 @@ export class RedisKeyValueStorage implements KeyValueStorage {
 
   set(key: string, value: string, expiry?: number): Promise<void> {
     return new Promise((resolve, reject) => {
-      this.redis.set(key, value, (err) => {
+      function cb(err: Error | null) {
         if (err) {
           reject(err);
         } else {
           resolve();
         }
-      })
+      }
+      if (expiry) {
+        this.redis.set(key, value, "EXPIRE", expiry, cb);
+      } else {
+        this.redis.set(key, value, cb);
+      }
+      
     })
   }
 

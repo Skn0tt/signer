@@ -41,12 +41,16 @@ export class Signer<JWTPayload extends object> {
   }
 
   public async init() {
-    const secrets = generateNewSecrets(null, this.config);
-    await this.kv.set(
-      SECRETS_KEY,
-      JSON.stringify(secrets)
-    );
     this.startRotationInterval();
+
+    const alreadySet = await this.kv.get(SECRETS_KEY);
+    if (!alreadySet) {
+      const initialSecrets = generateNewSecrets(null, this.config);
+      await this.kv.set(
+        SECRETS_KEY,
+        JSON.stringify(initialSecrets)
+      );
+    }
   }
 
   public async rotate() {

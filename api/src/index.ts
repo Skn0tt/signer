@@ -1,6 +1,6 @@
-import * as express from "express";
+import express from "express";
 import type { Request, Response, NextFunction } from "express";
-import * as morgan from "morgan";
+import morgan from "morgan";
 import wrapAsync from 'express-wrap-async';
 import * as bodyParser from "body-parser";
 import Signer from "@skn0tt/signer";

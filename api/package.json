@@ -1,6 +1,7 @@
 {
   "scripts": {
-    "start": "ts-node src/index.ts"
+    "start": "node dist/index.js",
+    "build": "tsc"
   },
   "dependencies": {
     "@skn0tt/signer": "file:./../lib",

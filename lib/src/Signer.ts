@@ -13,7 +13,7 @@ export interface SignerConfig {
 
 const SECRETS_KEY = "SECRETS";
 
-export class Signer<JWTPayload extends string | object | Buffer> {
+export class Signer<JWTPayload extends object> {
 
   private constructor(
     private readonly kv: KeyValueStorage ,
@@ -79,14 +79,14 @@ export class Signer<JWTPayload extends string | object | Buffer> {
     }
   }
 
-  static async fromKvStorage(kv: KeyValueStorage, config: SignerConfig) {
-    const signer = new Signer(kv, config);
+  static async fromKvStorage<T extends object>(kv: KeyValueStorage, config: SignerConfig) {
+    const signer = new Signer<T>(kv, config);
     await signer.init();
     return signer;
   }
 
-  static async fromRedis(redis: RedisClient, config: SignerConfig) {
-    return await this.fromKvStorage(new RedisKeyValueStorage(redis), config);
+  static async fromRedis<T extends object>(redis: RedisClient, config: SignerConfig) {
+    return await this.fromKvStorage<T>(new RedisKeyValueStorage(redis), config);
   }
 
 }

@@ -8,7 +8,7 @@ const isTokenExpiredError = (e: VerificationError): e is JWT.TokenExpiredError =
 
 const ASYMMETRIC_ALGORITHM = "RS256";
 
-export class JWTRepository<Payload extends string | object | Buffer> {
+export class JWTRepository<Payload extends object> {
 
   constructor(
     private readonly getSecrets: () => Promise<Secrets>,

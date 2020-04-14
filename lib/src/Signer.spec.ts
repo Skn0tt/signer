@@ -38,7 +38,10 @@ describe("Signer", () => {
       const token = await jwtRepo.sign(payload);
 
       const payloadFromToken = await jwtRepo.verify(token);
-      expect(payloadFromToken).toEqual(payload);
+      expect(payloadFromToken).not.toBeNull();
+
+      const { uid } = payloadFromToken!;
+      expect(uid).toBe(payload.uid);
     });
 
     test("blocking flow", async () => {

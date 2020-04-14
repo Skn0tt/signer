@@ -30,8 +30,8 @@ export class JWTRepository<Payload extends object> {
     return JWT.sign(payload, privateKey, options);
   }
 
-  public isBlocked(token: string) {
-    const value = this.kv.get(token);
+  public async isBlocked(token: string) {
+    const value = await this.kv.get(token);
     return !!value;
   }
 
@@ -40,7 +40,7 @@ export class JWTRepository<Payload extends object> {
   }
 
   public async verify(token: string): Promise<Payload | null> {
-    if (this.isBlocked(token)) {
+    if (await this.isBlocked(token)) {
       return null;
     }
 
@@ -58,6 +58,7 @@ export class JWTRepository<Payload extends object> {
       return payload as Payload;
     } catch (e) {
       const error = e as VerificationError;
+      
       if (isTokenExpiredError(error)) {
         return null;
       }

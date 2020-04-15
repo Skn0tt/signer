@@ -2,8 +2,15 @@ import Signer from "."
 import { KeyValueStorage } from "./KeyValueStorage";
 import { SignerConfig } from "./Signer";
 
+function waitFor(ms: number) {
+  return new Promise<void>(resolve => {
+    setTimeout(resolve, ms);
+  })
+}
+
 describe("Signer", () => {
-  async function getInMemorySigner<T extends object>(mode: SignerConfig["mode"]) {
+
+  async function getInMemorySigner<T extends object>(mode: SignerConfig["mode"], rotationInterval = 300) {
     const map = new Map<string, string>();
     const kvStorage: KeyValueStorage = {
 
@@ -18,9 +25,9 @@ describe("Signer", () => {
     }
     const signer = await Signer.fromKvStorage<T>(kvStorage, {
       mode,
-      rotationInterval: 300,
+      rotationInterval,
       secretLength: 20,
-      tokenExpiry: 400
+      tokenExpiry: rotationInterval
     });
 
     return {
@@ -29,6 +36,21 @@ describe("Signer", () => {
       signer
     };
   }
+
+
+
+  describe("rotation", () => {
+    it("works", async () => {
+      const { signer } = await getInMemorySigner<{ uid: string }>("asymmetric", 1);
+      const currentSecrets = signer.getPublic();
+
+      await waitFor(1000);
+
+      const rotatedSecrets = signer.getPublic();
+
+      expect(currentSecrets).not.toEqual(rotatedSecrets);
+    })
+  })
 
   describe("#JwtRepository", () => {
 

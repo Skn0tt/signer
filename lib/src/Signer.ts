@@ -33,16 +33,24 @@ export class Signer<JWTPayload extends object> {
   private interval?: NodeJS.Timer;
 
   private startRotationInterval() {
+    this.close();
+    
+    this.interval = setInterval(
+      () => {
+        this.rotate();
+      },
+      this.config.rotationInterval
+    );
+  }
+
+  public close() {
     if (this.interval) {
       clearInterval(this.interval);
+      this.interval = undefined;
     }
-    
-    this.interval = setInterval(this.rotate, this.config.rotationInterval * 1000);
   }
 
   public async init() {
-    this.startRotationInterval();
-
     const alreadySet = await this.kv.get(SECRETS_KEY);
     if (!alreadySet) {
       const initialSecrets = generateNewSecrets(null, this.config);
@@ -51,6 +59,8 @@ export class Signer<JWTPayload extends object> {
         JSON.stringify(initialSecrets)
       );
     }
+
+    this.startRotationInterval();
   }
 
   public async rotate() {

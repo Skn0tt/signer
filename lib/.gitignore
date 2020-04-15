@@ -1,5 +1,6 @@
 # Own
 dist
+tsconfig.tsbuildinfo
 
 # Created by https://www.gitignore.io/api/node,typings
 

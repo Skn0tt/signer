@@ -8,7 +8,7 @@ export interface SignerConfig {
   mode: "symmetric" | "asymmetric";
   secretLength: number;
   tokenExpiry: number;
-  rotationInterval: number;
+  rotationInterval: number | null;
 }
 
 const SECRETS_KEY = "SECRETS";
@@ -34,6 +34,10 @@ export class Signer<JWTPayload extends object> {
 
   private startRotationInterval() {
     this.close();
+
+    if (!this.config.rotationInterval) {
+      return;
+    }
     
     this.interval = setInterval(
       () => {

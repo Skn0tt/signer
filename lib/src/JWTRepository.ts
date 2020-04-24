@@ -20,7 +20,7 @@ export class JWTRepository<Payload extends object> {
     const { current: { privateKey } } = await this.getSecrets();
 
     const options: JWT.SignOptions = {
-      expiresIn: this.config.tokenExpiry,
+      expiresIn: this.config.tokenExpiry + "ms",
     }
 
     if (this.config.mode === "asymmetric") {

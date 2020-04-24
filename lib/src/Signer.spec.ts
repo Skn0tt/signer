@@ -1,6 +1,7 @@
 import Signer from "."
 import { KeyValueStorage } from "./KeyValueStorage";
 import { SignerConfig } from "./Signer";
+import { getMockKvStorage } from "./KeyValueStorage.spec";
 
 jest.useFakeTimers();
 jest.setTimeout(100);
@@ -14,7 +15,6 @@ function waitForNextCycle() {
 describe("Signer", () => {
 
   interface WithInMemorySignerDeps {
-    map: Map<string, string>;
     kv: KeyValueStorage;
     signer: Signer<{ uid: string }>;
   }
@@ -22,30 +22,15 @@ describe("Signer", () => {
   function withInMemorySigner(...args: Parameters<typeof getInMemorySigner>) {
 
     async function getInMemorySigner(mode: SignerConfig["mode"], rotationInterval = 300 * 1000): Promise<WithInMemorySignerDeps> {
-      const map = new Map<string, string>();
-      const kvStorage: KeyValueStorage = {
-  
-        async get(key: string) {
-          return map.get(key) ?? null;
-        },
-  
-        async set(key: string, value: string) {
-          map.set(key, value);
-        }
-  
-      }
-      const signer = await Signer.fromKvStorage<{ uid: string }>(kvStorage, {
+      const kv = getMockKvStorage();
+      const signer = await Signer.fromKvStorage<{ uid: string }>(kv, {
         mode,
         rotationInterval,
         secretLength: 20,
         tokenExpiry: rotationInterval
       });
   
-      return {
-        map,
-        kv: kvStorage,
-        signer
-      };
+      return { kv, signer };
     }
 
     return async function (test: (deps: WithInMemorySignerDeps) => Promise<void>) {

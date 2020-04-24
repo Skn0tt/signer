@@ -13,7 +13,7 @@ export class JWTRepository<Payload extends object> {
   constructor(
     private readonly getSecrets: () => Promise<Secrets>,
     private readonly kv: KeyValueStorage,
-    private readonly config: SignerConfig
+    private readonly config: Pick<SignerConfig, "tokenExpiry" | "mode">
   ) {}
 
   public async sign(payload: Payload): Promise<string> {

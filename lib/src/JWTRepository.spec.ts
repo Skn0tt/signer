@@ -1,5 +1,5 @@
 import { JWTRepository } from "./JWTRepository"
-import { getMockKvStorage } from "./KeyValueStorage.spec"
+import { getMockKvStorage } from "./KeyValueStorage.mock"
 import { decode } from "jsonwebtoken";
 import mockdate from "mockdate";
 

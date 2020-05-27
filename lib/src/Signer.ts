@@ -9,6 +9,7 @@ export interface SignerConfig {
   secretLength: number;
   tokenExpiry: number;
   rotationInterval: number | null;
+  onRotate?(): void;
 }
 
 const SECRETS_KEY = "SECRETS";

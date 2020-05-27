@@ -18,20 +18,23 @@ describe("Signer", () => {
   interface WithInMemorySignerDeps {
     kv: KeyValueStorage;
     signer: Signer<{ uid: string }>;
+    onRotate: jest.Mock;
   }
 
   function withInMemorySigner(...args: Parameters<typeof getInMemorySigner>) {
 
     async function getInMemorySigner(mode: SignerConfig["mode"], rotationInterval: number | null = 300 * 1000): Promise<WithInMemorySignerDeps> {
       const kv = getMockKvStorage();
+      const onRotate = jest.fn();
       const signer = await Signer.fromKvStorage<{ uid: string }>(kv, {
         mode,
         rotationInterval,
+        onRotate,
         secretLength: 20,
-        tokenExpiry: rotationInterval ?? 300 * 1000
+        tokenExpiry: rotationInterval ?? 300 * 1000,
       });
   
-      return { kv, signer };
+      return { kv, signer, onRotate };
     }
 
     return async function (test: (deps: WithInMemorySignerDeps) => Promise<void>) {
@@ -49,13 +52,14 @@ describe("Signer", () => {
       }))
     });
 
-    it("works", () => withInMemorySigner("asymmetric")(async ({ signer }) => {
+    it("works", () => withInMemorySigner("asymmetric")(async ({ signer, onRotate }) => {
       const currentSecrets = await signer.getPublic();
       await signer.rotate();
       const newSecrets = await signer.getPublic();
 
       expect(currentSecrets.current).toEqual(newSecrets.old);
       expect(currentSecrets).not.toEqual(newSecrets);
+      expect(onRotate).toHaveBeenCalledTimes(1);
     }));
 
     it("happens after specified timeout", () => withInMemorySigner("asymmetric")(async ({ signer }) => {

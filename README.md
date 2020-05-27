@@ -29,7 +29,8 @@ const signer = await Signer.fromRedis(
     mode: "asymmetric",
     secretLength: 96,
     tokenExpiry: 300,
-    rotationInterval: 300
+    rotationInterval: 300,
+    onRotate: () => console.log("Yay, I rotated!")
   }
 );
 

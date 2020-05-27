@@ -79,6 +79,7 @@ export class Signer<JWTPayload extends object> {
       SECRETS_KEY,
       JSON.stringify(newValues)
     );
+    this.config.onRotate?.();
   }
 
   private async getKeys() {
